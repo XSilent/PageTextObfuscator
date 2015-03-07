@@ -7,10 +7,6 @@ var pageWordObfuscator = function()
 {
 	"use strict";
 
-	if ( ! window.console ) {
-		var console = { log: function(){} };
-	}
-
 	walkElements();
 
 	/**
@@ -69,7 +65,9 @@ var pageWordObfuscator = function()
 				try {
 					allElements[element].innerText = obfuscated;
 				} catch (e) {
-					console.log(e);
+					if (window.console) {
+						console.log(e);
+					}
 				}
 			}
 		}
