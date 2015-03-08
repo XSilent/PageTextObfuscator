@@ -7,8 +7,6 @@ var pageWordObfuscator = function()
 {
 	"use strict";
 
-	var exclude = ['BR', 'SCRIPT', 'A', 'UL', 'FORM', 'INPUT', 'NOSCRIPT', 'IMG', 'TR', 'TABLE', 'HR'];
-
 	walkElements();
 
 	/**
@@ -73,8 +71,8 @@ var pageWordObfuscator = function()
 	 *
 	 * @param node
 	 */
-	function modifyNodeText(node) {
-
+	function modifyNodeText(node)
+	{
 		if (node.nodeType === 3) {
 
 			try {
