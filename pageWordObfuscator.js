@@ -7,6 +7,8 @@ var pageWordObfuscator = function()
 {
 	"use strict";
 
+	var exclude = ['BR', 'SCRIPT', 'A', 'UL', 'FORM', 'INPUT', 'NOSCRIPT', 'IMG', 'TR', 'TABLE', 'HR'];
+
 	walkElements();
 
 	/**
@@ -55,22 +57,42 @@ var pageWordObfuscator = function()
 		var bodyElement = document.getElementsByTagName("body")[0];
 		var allElements = bodyElement.getElementsByTagName("*");
 
-		var obfuscated;
 		for (var element in allElements) {
 
-			if (typeof allElements[element].tagName !== 'undefined') {
-
-				obfuscated = obfuscate(allElements[element].innerText);
-
-				try {
-					allElements[element].innerText = obfuscated;
-				} catch (e) {
-					if (window.console) {
-						console.log(e);
-					}
-				}
+			if (typeof allElements[element] !== 'undefined') {
+				modifyNodeText(allElements[element]);
 			}
 		}
+	}
+
+	/**
+	 * Recursion through all
+	 * nodes. Find the last node
+	 * which is a text node and
+	 * replace text on this one.
+	 *
+	 * @param node
+	 */
+	function modifyNodeText(node) {
+
+		if (node.nodeType === 3) {
+
+			try {
+				node.data = obfuscate(node.data);
+			} catch(e) {
+				if (window.console) {
+					console.log(e);
+				}
+			}
+
+			return;
+		}
+
+		if (node = node.firstChild) do {
+			modifyNodeText(node);
+		} while (node = node.nextSibling);
+
+		return;
 	}
 
 	/**
